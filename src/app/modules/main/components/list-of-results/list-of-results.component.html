@@ -1,0 +1,10 @@
+<div class="wrapper">
+  <cdk-virtual-scroll-viewport class="scrollStyles" itemSize="60" minBufferPx="60" maxBufferPx="120">
+    <div class="wrapper__list list"
+         *cdkVirtualFor="let item of lists"
+    >
+      <span class="list__title" (click)="onClickItem(item.url)">{{item.name}}</span>
+      <span class="list__description">{{item.description}}</span>
+    </div>
+  </cdk-virtual-scroll-viewport>
+</div>

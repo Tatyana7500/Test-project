@@ -1,0 +1,10 @@
+<div class="wrapper">
+  <mat-form-field appearance="fill">
+    <mat-label>{{title}}</mat-label>
+    <mat-select [value]="selectedValue" (valueChange)="changeValue($event)">
+      <mat-option *ngFor="let item of lists" [value]="item">
+        {{item}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>

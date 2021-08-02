@@ -1,0 +1,28 @@
+<div class="wrapper" *ngIf="isShow; else stub">
+  <div class="wrapper__info info">
+    <div class="info__organization organization">
+      <span class="organization__name">{{infoRepository.name}}</span>
+      <span class="organization__description">{{infoRepository.description}}</span>
+      <a class="organization__link" href="{{infoRepository.organization?.html_url}}" target="_blank">{{infoRepository.organization?.html_url}}</a>
+    </div>
+    <img *ngIf="infoRepository.organization?.avatar_url"
+         src="{{infoRepository.organization?.avatar_url}}"
+         alt="icon-created"
+         class="info__avatar"
+    >
+  </div>
+  <div class="wrapper__description description">
+    <div class="description__homepage homepage">
+      <span class="homepage__title">Home page: </span>
+      <a class="homepage__url" href="{{infoRepository.homepage}}" target="_blank">{{infoRepository.homepage}}</a>
+    </div>
+    <span class="description__language">Language: {{infoRepository.language}}</span>
+    <span class="description__url">Git url: {{infoRepository.git_url}}</span>
+  </div>
+</div>
+
+<ng-template #stub>
+  <div class="stub">
+    <p class="stub__title">No select repository</p>
+  </div>
+</ng-template>

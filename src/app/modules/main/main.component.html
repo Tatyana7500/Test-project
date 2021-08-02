@@ -1,0 +1,33 @@
+<div class="wrapper">
+  <div class="wrapper__controls controls">
+    <div class="controls__input-search">
+      <app-search
+        [search]="search"
+        (callback)="changeSearch($event)"
+        [placeHolder]="'search...'"
+      ></app-search>
+    </div>
+    <div class="controls__filters">
+      <app-checkbox
+        [title]="'With description'"
+        [checked]="filterWithDescription"
+        (callback)="toggleWithDescription()"
+      ></app-checkbox>
+      <app-dropdownscroll
+        [lists]="filterLanguages"
+        [title]="'Language'"
+        [selectedValue]="filterSelectedLanguage"
+        (callback)="changeLanguage($event)"
+      ></app-dropdownscroll>
+    </div>
+  </div>
+  <div class="wrapper__list-of-results" *ngIf="!isLoaderSearch; else loader">
+    <app-list-of-results
+      [lists]="searchResults"
+    ></app-list-of-results>
+  </div>
+</div>
+
+<ng-template #loader>
+  <app-spinner></app-spinner>
+</ng-template>
