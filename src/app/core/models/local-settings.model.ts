@@ -7,4 +7,5 @@ export interface Filters {
 export interface UserLocalSettings {
   search: string;
   filters: Filters;
+  isLoaderSearch: boolean;
 }

@@ -4,7 +4,7 @@ import { HttpService } from '../../services';
 import { of } from 'rxjs';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { map, catchError, switchMap, debounceTime, withLatestFrom, mergeMap } from 'rxjs/operators';
-import { RepositoryActions, SearchActions } from '../actions';
+import { RepositoryActions, SearchActions, LocalSettingsActions } from '../actions';
 import { SearchResultsResponse, InfoRepositoryResponse } from '../../models';
 import { selectSearchString } from '../selectors';
 
@@ -24,7 +24,7 @@ export class SearchEffects {
       this.httpService.sendGetRequest(url).pipe(
         map((searchResults: SearchResultsResponse) =>
             SearchActions.setSearchResults({ payload: searchResults.items }),
-        catchError(() => of(SearchActions.searchError()))),
+        catchError((error) => of(SearchActions.error(error)))),
       )
     )
   ), { useEffectsErrorHandler: false });
@@ -37,7 +37,8 @@ export class SearchEffects {
     ),
     mergeMap(async ([searchResults, searchString]) => {
       if (searchString) {
-        this.store.dispatch(SearchActions.setSearchResultsStore({payload: searchResults}));
+        this.store.dispatch(SearchActions.setSearchResultsStore({ payload: searchResults }));
+        this.store.dispatch(LocalSettingsActions.setIsLoaderStore({ payload: false }));
       }
     }),
   ),{ dispatch: false });
@@ -48,8 +49,14 @@ export class SearchEffects {
       this.httpService.sendGetRequest(action.payload).pipe(
         map((infoRepository: InfoRepositoryResponse) =>
             RepositoryActions.setInfoRepositoryStore({ payload: infoRepository }),
-          catchError(() => of(SearchActions.searchError()))),
+          catchError((error) => of(SearchActions.error(error)))),
       )
     )
   ), { useEffectsErrorHandler: false });
+
+  error$ = createEffect(() => this.actions$.pipe(
+    ofType(SearchActions.error),
+    map(action => action.payload),
+    map( error => console.warn('Error', error))
+  ), { dispatch: false });
 }

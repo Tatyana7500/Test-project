@@ -7,7 +7,8 @@ export const initialState: UserLocalSettings = {
   filters: {
     withDescription: true,
     selectedLanguage: '',
-  }
+  },
+  isLoaderSearch: false,
 };
 
 const _localSettingsReducer = createReducer(
@@ -29,6 +30,10 @@ const _localSettingsReducer = createReducer(
       ...state.filters,
       selectedLanguage: payload,
     },
+  })),
+  on(LocalSettingsActions.setIsLoaderStore, (state, { payload }) => ({
+    ...state,
+    isLoaderSearch: payload,
   })),
 );
 

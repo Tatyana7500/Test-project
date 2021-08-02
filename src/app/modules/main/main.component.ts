@@ -5,6 +5,7 @@ import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import {
   selectSearchString,
+  selectIsLoaderSearch,
   selectFilterLanguages,
   selectFilterWithDescription,
   selectFilteredSearchResults,
@@ -20,14 +21,16 @@ import { SearchGithub } from '../../core/models';
 export class MainComponent implements OnInit {
   private unsubscribe$: Subject<void> = new Subject<void>();
 
-  private search$: Observable<string> = this.store.pipe(select(selectSearchString));
-  private searchResults$: Observable<SearchGithub[]> = this.store.pipe(select(selectFilteredSearchResults));
-  private filterLanguages$: Observable<string[]> = this.store.pipe(select(selectFilterLanguages));
-  private filterWithDescription$: Observable<boolean> = this.store.pipe(select(selectFilterWithDescription));
-  private filterSelectedLanguage$: Observable<string> = this.store.pipe(select(selectFilterSelectedLanguage));
+  private search$: Observable<string> = this.store.select(selectSearchString);
+  private searchResults$: Observable<SearchGithub[]> = this.store.select(selectFilteredSearchResults);
+  private isLoaderSearch$: Observable<boolean> = this.store.select(selectIsLoaderSearch);
+  private filterLanguages$: Observable<string[]> = this.store.select(selectFilterLanguages);
+  private filterWithDescription$: Observable<boolean> = this.store.select(selectFilterWithDescription);
+  private filterSelectedLanguage$: Observable<string> = this.store.select(selectFilterSelectedLanguage);
 
-  public search = '';
+  public search: string = '';
   public searchResults: SearchGithub[] = [];
+  public isLoaderSearch: boolean = false;
   public filterLanguages: string[] = ['TypeScript', 'JavaScript', 'Swift', 'C#', 'C++', 'Java', 'Dart', 'Ruby'];
   public filterWithDescription = true;
   public filterSelectedLanguage = '';
@@ -50,6 +53,10 @@ export class MainComponent implements OnInit {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(filterWithDescription => this.filterWithDescription = filterWithDescription);
 
+    this.isLoaderSearch$
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(isLoaderSearch => this.isLoaderSearch = isLoaderSearch);
+
     // this.filterLanguages$
     //   .pipe(takeUntil(this.unsubscribe$))
     //   .subscribe(filterLanguages => this.filterLanguages = filterLanguages);
@@ -59,6 +66,7 @@ export class MainComponent implements OnInit {
     this.search = search;
     if (this.search) {
       this.store.dispatch(LocalSettingsActions.setSearchStore({payload: this.search}));
+      this.store.dispatch(LocalSettingsActions.setIsLoaderStore({ payload: true }));
       this.store.dispatch(SearchActions.sendGetRequestSearchByGithub({ payload: this.search }));
     }
   }

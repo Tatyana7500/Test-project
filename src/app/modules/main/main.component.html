@@ -21,7 +21,7 @@
       ></app-dropdownscroll>
     </div>
   </div>
-  <div class="wrapper__list-of-results" *ngIf="searchResults.length || !search; else loader">
+  <div class="wrapper__list-of-results" *ngIf="!isLoaderSearch; else loader">
     <app-list-of-results
       [lists]="searchResults"
     ></app-list-of-results>
