@@ -100,6 +100,35 @@ export interface SearchResultsResponse {
   items: SearchGithub[];
 }
 
+export interface InfoRepositoryLicense {
+  key?: string;
+  name?: string;
+  spdx_id?: string;
+  url?: string;
+  node_id?: string;
+}
+
+export interface InfoRepositoryOrganization {
+  avatar_url?: string;
+  events_url?: string;
+  followers_url?: string;
+  following_url?: string;
+  gists_url?: string;
+  gravatar_id?: string;
+  html_url?: string;
+  id?: number;
+  login?: string;
+  node_id?: string;
+  organizations_url?: string;
+  received_events_url?: string;
+  repos_url?: string;
+  site_admin?: boolean;
+  starred_url?: string;
+  subscriptions_url?: string;
+  type?: string;
+  url?: string;
+}
+
 export interface InfoRepositoryResponse {
   archive_url?: string;
   archived?: boolean;
@@ -145,13 +174,7 @@ export interface InfoRepositoryResponse {
   labels_url?: string;
   language?: string;
   languages_url?: string;
-  license?: {
-    key?: string;
-    name?: string;
-    spdx_id?: string;
-    url?: string;
-    node_id?: string;
-  },
+  license?: InfoRepositoryLicense;
   merges_url?: string;
   milestones_url?: string;
   mirror_url?: null;
@@ -161,26 +184,7 @@ export interface InfoRepositoryResponse {
   notifications_url?: string;
   open_issues?: number;
   open_issues_count?: number;
-  organization?: {
-    avatar_url?: string;
-    events_url?: string;
-    followers_url?: string;
-    following_url?: string;
-    gists_url?: string;
-    gravatar_id?: string;
-    html_url?: string;
-    id?: number;
-    login?: string;
-    node_id?: string;
-    organizations_url?: string;
-    received_events_url?: string;
-    repos_url?: string;
-    site_admin?: boolean;
-    starred_url?: string;
-    subscriptions_url?: string;
-    type?: string;
-    url?: string;
-  }
+  organization?: InfoRepositoryOrganization;
   owner?: SearchGithubOwner;
   private?: boolean;
   pulls_url?: string;
