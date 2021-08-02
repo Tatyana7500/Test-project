@@ -36,9 +36,10 @@ export class SearchEffects {
       this.store.pipe(select(selectSearchString)),
     ),
     mergeMap(async ([searchResults, searchString]) => {
+      this.store.dispatch(LocalSettingsActions.setIsLoaderStore({ payload: false }));
+
       if (searchString) {
         this.store.dispatch(SearchActions.setSearchResultsStore({ payload: searchResults }));
-        this.store.dispatch(LocalSettingsActions.setIsLoaderStore({ payload: false }));
       }
     }),
   ),{ dispatch: false });
