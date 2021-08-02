@@ -64,8 +64,9 @@ export class MainComponent implements OnInit {
 
   public changeSearch(search: string): void {
     this.search = search;
+    this.store.dispatch(LocalSettingsActions.setSearchStore({payload: this.search}));
+
     if (this.search) {
-      this.store.dispatch(LocalSettingsActions.setSearchStore({payload: this.search}));
       this.store.dispatch(LocalSettingsActions.setIsLoaderStore({ payload: true }));
       this.store.dispatch(SearchActions.sendGetRequestSearchByGithub({ payload: this.search }));
     }
